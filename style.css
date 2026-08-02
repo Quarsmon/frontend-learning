@@ -91,3 +91,22 @@ justify-content: space-around;  /* aralarında ve kenarlarda boşluk */
     padding: 20px;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    #navbar-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
