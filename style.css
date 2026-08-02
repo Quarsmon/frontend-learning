@@ -78,3 +78,16 @@ justify-content: space-around;  /* aralarında ve kenarlarda boşluk */
     background-color: transparent;
     padding: 0;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.grid-item {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+}
