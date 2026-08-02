@@ -1,6 +1,5 @@
 body {
     background-color: #f4f4f4;
-    front-family: Arial, sans-serif;
 }
 
 h1 {
@@ -60,11 +59,6 @@ nav {
     background-color: #34495e;
 }
 
-justify-content: flex-start;   /* sola yaslı */
-justify-content: flex-end;     /* sağa yaslı */ 
-justify-content: space-between; /* aralarında eşit boşluk, kenarlara yapışık */
-justify-content: space-around;  /* aralarında ve kenarlarda boşluk */
-
 #navbar-container {
     display: flex;
     justify-content: space-between;
@@ -92,9 +86,99 @@ justify-content: space-around;  /* aralarında ve kenarlarda boşluk */
     text-align: center;
 }
 
+:root {
+    --ana-renk: #2980b9;
+    --koyu-renk: #2c3e50;
+    --acik-gri: #f4f4f4;
+}
+
+body {
+    background-color: var(--acik-gri);
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: var(--koyu-renk);
+}
+
+section {
+    background-color: white;
+    margin: 60px;
+    padding: 40px;
+    border: 2px solid var(--ana-renk);
+}
+
+p {
+    font-size: 16px;
+}
+
+.ozel-yazı {
+    color: green;
+}
+
+#tek-yazı {
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: #34495e;
+}
+
+nav a {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: var(--ana-renk);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+nav a:hover {
+    background-color: #1c5980;
+}
+
+#navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--koyu-renk);
+    color: white;
+}
+
+#navbar-container nav {
+    background-color: transparent;
+    padding: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.grid-item {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.grid-item:hover {
+    transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
     .grid-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -102,9 +186,7 @@ justify-content: space-around;  /* aralarında ve kenarlarda boşluk */
     .grid-container {
         grid-template-columns: 1fr;
     }
-}
 
-@media (max-width: 480px) {
     #navbar-container {
         flex-direction: column;
         gap: 10px;
