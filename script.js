@@ -142,4 +142,73 @@ let enPahali = urunler.reduce(function(simdikiEnPahali, urun) {
 
 console.log(enPahali);
 
+// --- 13. Hafta: DOM Manipülasyonu Pratiği ---
 
+// 1. İçerik Değiştirme
+let urunBasligi = document.getElementById("urun-adi");
+urunBasligi.textContent = "Deri Klasik Model";
+
+// 2. Class Ekleme
+let fiyatParagrafi = document.querySelector(".fiyat");
+fiyatParagrafi.classList.add("indirimli");
+
+// 3. HTML Enjekte Etme
+let ekstraBilgiDivi = document.getElementById("ekstra-bilgi");
+ekstraBilgiDivi.innerHTML = "<p>Stokta son 3 çift!</p>";
+
+// 1. ADIM: Elementi yaratıyoruz (Şu an sadece JavaScript'in hafızasında yaşıyor, ekranda yok)
+let satinAlButonu = document.createElement("button");
+
+// 2. ADIM: Elementin içini ve özelliklerini dolduruyoruz
+satinAlButonu.textContent = "Hemen Satın Al";
+satinAlButonu.style.padding = "10px 20px";
+satinAlButonu.style.backgroundColor = "#2980b9";
+satinAlButonu.style.color = "white";
+satinAlButonu.style.border = "none";
+satinAlButonu.style.cursor = "pointer";
+
+// 3. ADIM: Elementi HTML'deki yuvasına yerleştiriyoruz (DOM'a fiziksel olarak ekleme)
+// Daha önce yakaladığımız ekstraBilgiDivi'nin içine (en son çocuk eleman olarak) yapıştırıyoruz
+ekstraBilgiDivi.appendChild(satinAlButonu);
+
+// urunBasligi.remove(); // Görmek istersen kendi kodunda başındaki // işaretlerini kaldırıp test edebilirsin.
+
+
+// --- 14. Hafta: Olaylar (Events) Pratiği ---
+
+let sepetSayisi = 0; // Sayacımız 0'dan başlıyor
+let sayacGostergesi = document.getElementById("sepet-sayaci");
+
+// Butona tıklandığında çalışacak kod bloğu (Event Listener)
+satinAlButonu.addEventListener("click", function() {
+    sepetSayisi++; // Her tıklamada sepet sayısını 1 artır (+1)
+    sayacGostergesi.textContent = sepetSayisi; // Yeni sayıyı ekrana (HTML'e) bas
+    console.log("Ürün sepete eklendi! Mevcut adet: " + sepetSayisi);
+});
+
+let sepettenCikarButonu = document.getElementById("sepetten-cikar");
+sepettenCikarButonu.addEventListener("click", function() {
+    if (sepetSayisi > 0) { // Sıfırın altına düşmemesi için kontrol
+        sepetSayisi--;
+        sayacGostergesi.textContent = sepetSayisi;
+        console.log("Ürün sepetten çıkarıldı! Mevcut adet: " + sepetSayisi);
+    } else {
+        console.log("Sepet zaten boş!");
+    }
+});
+
+// 1. Butonu id'si ile yakala
+let sepetiBosaltButonu = document.getElementById("sepeti-bosalt");
+
+// 2. Tıklama olayını (Event) ekle
+sepetiBosaltButonu.addEventListener("click", function() {
+    
+    // 3. Sepet sayısını direkt 0'a eşitle (Reset işlemi)
+    sepetSayisi = 0;
+    
+    // 4. Güncel olan 0 değerini HTML ekranına bas
+    sayacGostergesi.textContent = sepetSayisi;
+    
+    // 5. Konsola bilgi mesajı gönder
+    console.log("Sepet tamamen boşaltıldı! Mevcut adet: " + sepetSayisi);
+});
