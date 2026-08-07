@@ -212,3 +212,63 @@ sepetiBosaltButonu.addEventListener("click", function() {
     // 5. Konsola bilgi mesajı gönder
     console.log("Sepet tamamen boşaltıldı! Mevcut adet: " + sepetSayisi);
 });
+
+// --- 14. Hafta: To-Do App Pratiği ---
+
+// Elementleri SADECE BİR KERE yakalıyoruz
+let gorevInput = document.getElementById("yeni-gorev");
+let gorevEkleButonu = document.getElementById("gorev-ekle");
+let gorevListesi = document.getElementById("gorev-listesi");
+
+// Ekle butonu tıklama olayı
+gorevEkleButonu.addEventListener("click", function() {
+    
+    // Kutunun içindeki değeri tam butona basıldığı an alıyoruz
+    let girilenMetin = gorevInput.value.trim(); 
+    
+    if (girilenMetin !== "") {
+
+        // 1. Yeni görev maddesini (li) yarat
+        let yeniMadde = document.createElement("li");
+        yeniMadde.textContent = girilenMetin + " "; //Yanına buton geleceği için ufak bir boşluk bıraktık
+
+        // --- YENNİ EKLENEN KISIM: Tamamlandı İşareti ---
+
+        // Maddeye (yanının kendisine) tıklama olayı ekliyoruz
+        yeniMadde.addEventListener("click", function() {
+            // CSS'teki text-decoration özelliğini kontrol ediyoruz
+            if (yeniMadde.style.textDecoration === "line-through") {
+                yeniMadde.style.textDecoration = "none"; // Zaten çiziliyse, çizgiyi kaldır
+            } else {
+                yeniMadde.style.textDecoration = "line-through"; // Çizili değilse, üstünü çiz
+            }
+        });
+
+        // --- YENİ EKLENEN KISIM BİTİŞİ ---
+
+        // -- YENİ EKLENEN KISIM BAŞLANGICI --
+
+        // 2. Bu göreve özel bir "Sil" butonu yarat
+        let silButonu = document.createElement("button");
+        silButonu.textContent = "Sil";
+
+        // 3. Bu sil butonuna bir tıklama olayı (görev) ver
+        silButonu.addEventListener("click", function() {
+            yeniMadde.remove(); // .remove () komutu o elementi HTML'den tamamen siler
+    });
+
+        // 4. Sil butonunu, görev maddesinin (li) içine yerleştir
+        yeniMadde.appendChild(silButonu);
+
+        // --- YENİ EKLENEN KISIM BİTİŞİ --
+
+        // 5. İçine sil butonu da olan maddeyi ana listeye (ul) ekle
+        gorevListesi.appendChild(yeniMadde);
+        
+        // Kutuyu temizle
+        gorevInput.value = ""; 
+    } else {
+        alert("Lütfen bir görev girin!");
+    }
+});
+
