@@ -272,3 +272,68 @@ gorevEkleButonu.addEventListener("click", function() {
     }
 });
 
+// --- 15. Hafta: Dışarıdan Veri Çekme (Fetch API) ---
+
+console.log("1. Dükkan açıldı, sipariş veriliyor...");
+
+let kullaniciListesi = document.getElementById("kullanici-listesi");
+
+console.log("Veri çekiliyor...");
+
+fetch("https://jsonplaceholder.typicode.com/users")
+    .then(function(cevap) {
+        return cevap.json();
+    })
+    .then(function(kullanicilar) {
+        // Gelen 10 kişilik listede tek tek dönüyoruz
+        kullanicilar.forEach(function(kullanici) {
+            
+            // Her kullanıcı için yeni bir <li> elementi yaratıyoruz
+            let yeniMadde = document.createElement("li");
+            
+            // İçine kullanıcının adını ve mail adresini yazıyoruz
+            yeniMadde.textContent = kullanici.name + " - " + kullanici.email;
+            
+            // Hazırladığımız maddeyi HTML'deki listemize ekliyoruz
+            kullaniciListesi.appendChild(yeniMadde);
+        });
+        
+        console.log("Veriler başarıyla ekrana basıldı!");
+    });
+
+ 
+// --- 15. Hafta: Dışarıdan Veri Çekme (Fetch API) ---
+
+// Değişken ismini avatarliListe yaparak çakışma sorununu kökten çözdük
+let avatarliListe = document.getElementById("kullanici-listesi");
+
+fetch("https://jsonplaceholder.typicode.com/users")
+    .then(function(cevap) {
+        return cevap.json();
+    })
+    .then(function(kullanicilar) {
+        
+        avatarliListe.innerHTML = ""; 
+
+        kullanicilar.forEach(function(kullanici) {
+            
+            let yeniMadde = document.createElement("li");
+            yeniMadde.style.display = "flex";
+            yeniMadde.style.alignItems = "center";
+            yeniMadde.style.marginBottom = "15px";
+            
+            let profilFoto = document.createElement("img");
+            profilFoto.src = "https://robohash.org/" + kullanici.username + "?size=50x50";
+            profilFoto.style.borderRadius = "50%"; 
+            profilFoto.style.marginRight = "15px";
+            
+            let kullaniciBilgisi = document.createElement("span");
+            kullaniciBilgisi.textContent = kullanici.name + " - " + kullanici.email;
+            
+            yeniMadde.appendChild(profilFoto);
+            yeniMadde.appendChild(kullaniciBilgisi);
+            
+            // Yeni isimle listeye ekliyoruz
+            avatarliListe.appendChild(yeniMadde);
+        });
+    });
