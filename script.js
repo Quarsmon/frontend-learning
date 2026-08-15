@@ -22,39 +22,7 @@ console.log(5 * 3);
 console.log(5 / 3);
 console.log(5 % 3);
 
-/* --- 9-10. Gün prompt egzersizleri (devre dışı, tekrar denemek istersen yorum işaretini kaldır) ---
-
-let kullaniciIsim = prompt("İsminiz nedir?");
-let kullaniciYas = prompt("Yaşınız kaç?");
-console.log(`Merhaba ${kullaniciIsim}, ${kullaniciYas} yaşındasın.`);
-
-let kontrolYas = Number(prompt("Yaşınız kaç?"));
-if (kontrolYas >= 18) {
-    console.log("Reşitsiniz.");
-} else {
-    console.log("Reşit değilsiniz.");
-}
-
-let dogruSifre = "1234";
-let girilenSifre = prompt("Şifrenizi girin:");
-if (girilenSifre === dogruSifre) {
-    console.log("Giriş başarılı!");
-} else {
-    console.log("Yanlış şifre.");
-}
-
-let gizliSayi = 7;
-let tahmin = Number(prompt("1 ile 10 arasında bir sayı tahmin et:"));
-while (tahmin !== gizliSayi) {
-    if (tahmin > gizliSayi) {
-        tahmin = Number(prompt("Daha küçük bir sayı dene:"));
-    } else {
-        tahmin = Number(prompt("Daha büyük bir sayı dene:"));
-    }
-}
-console.log("Tebrikler, doğru bildin! Sayı: " + gizliSayi);
-
---- */
+/* --- 9-10. Gün prompt egzersizleri (devre dışı) --- */
 
 // Döngüler (sessiz çalışsın diye kalsın, prompt yok)
 for (let i = 1; i <= 5; i++) {
@@ -81,7 +49,6 @@ function selamVerIsimle(isim) {
 }
 
 selamVerIsimle("Eren");
-selamVerIsimle("Buse");
 
 function topla(a, b) {
     return a + b;
@@ -92,10 +59,10 @@ console.log(sonuc);
 
 let renkler = ["kırmızı", "mavi", "yeşil"];
 
-console.log(renkler);           // tüm dizi
-console.log(renkler[0]);        // kırmızı
-console.log(renkler[1]);        // mavi
-console.log(renkler.length);    // 3
+console.log(renkler);
+console.log(renkler[0]);
+console.log(renkler[1]);
+console.log(renkler.length);
 
 let urun = {
     isim: "Nike Aır",
@@ -111,8 +78,8 @@ let urunler = [
 ];
 
 console.log(urunler);
-console.log(urunler[0]);        // ilk ürün (obje)
-console.log(urunler[0].isim);   // ilk ürünün ismi
+console.log(urunler[0]);
+console.log(urunler[0].isim);
 
 urunler.forEach(function(urun) {
     console.log(urun.isim + " - " + urun.fiyat + " TL");
@@ -123,14 +90,14 @@ let pahaliUrunler = urunler.filter(function(urun) {
 });
 
 console.log("Pahalı Ürünler:");
-console.log(pahaliUrunler);   // ← bu satır eksikti
+console.log(pahaliUrunler);
 
 let giyimUrunleri = urunler.filter(function(urun) {
     return urun.kategori === "Giyim";
 });
 
 console.log("Giyim Ürünleri:");
-console.log(giyimUrunleri);   // ← bu satır eksikti
+console.log(giyimUrunleri);
 
 let enPahali = urunler.reduce(function(simdikiEnPahali, urun) {
     if (urun.fiyat > simdikiEnPahali.fiyat) {
@@ -144,167 +111,76 @@ console.log(enPahali);
 
 // --- 13. Hafta: DOM Manipülasyonu Pratiği ---
 
-// 1. İçerik Değiştirme
 let urunBasligi = document.getElementById("urun-adi");
 urunBasligi.textContent = "Deri Klasik Model";
 
-// 2. Class Ekleme
 let fiyatParagrafi = document.querySelector(".fiyat");
 fiyatParagrafi.classList.add("indirimli");
 
-// 3. HTML Enjekte Etme
 let ekstraBilgiDivi = document.getElementById("ekstra-bilgi");
 ekstraBilgiDivi.innerHTML = "<p>Stokta son 3 çift!</p>";
 
-// 1. ADIM: Elementi yaratıyoruz (Şu an sadece JavaScript'in hafızasında yaşıyor, ekranda yok)
 let satinAlButonu = document.createElement("button");
-
-// 2. ADIM: Elementin içini ve özelliklerini dolduruyoruz
 satinAlButonu.textContent = "Hemen Satın Al";
 satinAlButonu.style.padding = "10px 20px";
 satinAlButonu.style.backgroundColor = "#2980b9";
 satinAlButonu.style.color = "white";
 satinAlButonu.style.border = "none";
 satinAlButonu.style.cursor = "pointer";
-
-// 3. ADIM: Elementi HTML'deki yuvasına yerleştiriyoruz (DOM'a fiziksel olarak ekleme)
-// Daha önce yakaladığımız ekstraBilgiDivi'nin içine (en son çocuk eleman olarak) yapıştırıyoruz
 ekstraBilgiDivi.appendChild(satinAlButonu);
 
-// urunBasligi.remove(); // Görmek istersen kendi kodunda başındaki // işaretlerini kaldırıp test edebilirsin.
 
+// --- 17. Hafta: Sepet Sistemini Local Storage ile Kalıcı Yapmak ---
 
-// --- 14. Hafta: Olaylar (Events) Pratiği ---
+// 1. Sayfa yüklendiğinde hafızadaki sepet sayısını kontrol et.
+// LocalStorage sadece metin (string) tuttuğu için Number() ile rakama çeviriyoruz.
+// Eğer hafızada bir şey yoksa (||) 0 olarak başlatıyoruz.
+let sepetSayisi = Number(localStorage.getItem("kayitliSepet")) || 0; 
 
-let sepetSayisi = 0; // Sayacımız 0'dan başlıyor
 let sayacGostergesi = document.getElementById("sepet-sayaci");
 
-// Butona tıklandığında çalışacak kod bloğu (Event Listener)
+// Sayfa ilk açıldığında hafızadaki sayıyı anında HTML'e bas
+sayacGostergesi.textContent = sepetSayisi;
+
+// Hemen Satın Al Butonu
 satinAlButonu.addEventListener("click", function() {
-    sepetSayisi++; // Her tıklamada sepet sayısını 1 artır (+1)
-    sayacGostergesi.textContent = sepetSayisi; // Yeni sayıyı ekrana (HTML'e) bas
+    sepetSayisi++; 
+    sayacGostergesi.textContent = sepetSayisi; 
+    
+    // Her artışta yeni sayıyı hafızaya kaydet
+    localStorage.setItem("kayitliSepet", sepetSayisi); 
     console.log("Ürün sepete eklendi! Mevcut adet: " + sepetSayisi);
 });
 
+// Sepetten Çıkar Butonu
 let sepettenCikarButonu = document.getElementById("sepetten-cikar");
 sepettenCikarButonu.addEventListener("click", function() {
-    if (sepetSayisi > 0) { // Sıfırın altına düşmemesi için kontrol
+    if (sepetSayisi > 0) { 
         sepetSayisi--;
         sayacGostergesi.textContent = sepetSayisi;
+        
+        // Her azalışta yeni sayıyı hafızaya kaydet
+        localStorage.setItem("kayitliSepet", sepetSayisi); 
         console.log("Ürün sepetten çıkarıldı! Mevcut adet: " + sepetSayisi);
     } else {
         console.log("Sepet zaten boş!");
     }
 });
 
-// 1. Butonu id'si ile yakala
+// Sepeti Boşalt Butonu
 let sepetiBosaltButonu = document.getElementById("sepeti-bosalt");
-
-// 2. Tıklama olayını (Event) ekle
 sepetiBosaltButonu.addEventListener("click", function() {
-    
-    // 3. Sepet sayısını direkt 0'a eşitle (Reset işlemi)
     sepetSayisi = 0;
-    
-    // 4. Güncel olan 0 değerini HTML ekranına bas
     sayacGostergesi.textContent = sepetSayisi;
     
-    // 5. Konsola bilgi mesajı gönder
+    // Sıfırlandığında hafızayı da 0 olarak güncelle
+    localStorage.setItem("kayitliSepet", sepetSayisi); 
     console.log("Sepet tamamen boşaltıldı! Mevcut adet: " + sepetSayisi);
 });
 
-// --- 14. Hafta: To-Do App Pratiği ---
 
-// Elementleri SADECE BİR KERE yakalıyoruz
-let gorevInput = document.getElementById("yeni-gorev");
-let gorevEkleButonu = document.getElementById("gorev-ekle");
-let gorevListesi = document.getElementById("gorev-listesi");
+// --- 15. Hafta: Dışarıdan Veri Çekme (Fetch API - SADECE AVATARLI YENİ VERSİYON) ---
 
-// Ekle butonu tıklama olayı
-gorevEkleButonu.addEventListener("click", function() {
-    
-    // Kutunun içindeki değeri tam butona basıldığı an alıyoruz
-    let girilenMetin = gorevInput.value.trim(); 
-    
-    if (girilenMetin !== "") {
-
-        // 1. Yeni görev maddesini (li) yarat
-        let yeniMadde = document.createElement("li");
-        yeniMadde.textContent = girilenMetin + " "; //Yanına buton geleceği için ufak bir boşluk bıraktık
-
-        // --- YENNİ EKLENEN KISIM: Tamamlandı İşareti ---
-
-        // Maddeye (yanının kendisine) tıklama olayı ekliyoruz
-        yeniMadde.addEventListener("click", function() {
-            // CSS'teki text-decoration özelliğini kontrol ediyoruz
-            if (yeniMadde.style.textDecoration === "line-through") {
-                yeniMadde.style.textDecoration = "none"; // Zaten çiziliyse, çizgiyi kaldır
-            } else {
-                yeniMadde.style.textDecoration = "line-through"; // Çizili değilse, üstünü çiz
-            }
-        });
-
-        // --- YENİ EKLENEN KISIM BİTİŞİ ---
-
-        // -- YENİ EKLENEN KISIM BAŞLANGICI --
-
-        // 2. Bu göreve özel bir "Sil" butonu yarat
-        let silButonu = document.createElement("button");
-        silButonu.textContent = "Sil";
-
-        // 3. Bu sil butonuna bir tıklama olayı (görev) ver
-        silButonu.addEventListener("click", function() {
-            yeniMadde.remove(); // .remove () komutu o elementi HTML'den tamamen siler
-    });
-
-        // 4. Sil butonunu, görev maddesinin (li) içine yerleştir
-        yeniMadde.appendChild(silButonu);
-
-        // --- YENİ EKLENEN KISIM BİTİŞİ --
-
-        // 5. İçine sil butonu da olan maddeyi ana listeye (ul) ekle
-        gorevListesi.appendChild(yeniMadde);
-        
-        // Kutuyu temizle
-        gorevInput.value = ""; 
-    } else {
-        alert("Lütfen bir görev girin!");
-    }
-});
-
-// --- 15. Hafta: Dışarıdan Veri Çekme (Fetch API) ---
-
-console.log("1. Dükkan açıldı, sipariş veriliyor...");
-
-let kullaniciListesi = document.getElementById("kullanici-listesi");
-
-console.log("Veri çekiliyor...");
-
-fetch("https://jsonplaceholder.typicode.com/users")
-    .then(function(cevap) {
-        return cevap.json();
-    })
-    .then(function(kullanicilar) {
-        // Gelen 10 kişilik listede tek tek dönüyoruz
-        kullanicilar.forEach(function(kullanici) {
-            
-            // Her kullanıcı için yeni bir <li> elementi yaratıyoruz
-            let yeniMadde = document.createElement("li");
-            
-            // İçine kullanıcının adını ve mail adresini yazıyoruz
-            yeniMadde.textContent = kullanici.name + " - " + kullanici.email;
-            
-            // Hazırladığımız maddeyi HTML'deki listemize ekliyoruz
-            kullaniciListesi.appendChild(yeniMadde);
-        });
-        
-        console.log("Veriler başarıyla ekrana basıldı!");
-    });
-
- 
-// --- 15. Hafta: Dışarıdan Veri Çekme (Fetch API) ---
-
-// Değişken ismini avatarliListe yaparak çakışma sorununu kökten çözdük
 let avatarliListe = document.getElementById("kullanici-listesi");
 
 fetch("https://jsonplaceholder.typicode.com/users")
@@ -333,7 +209,92 @@ fetch("https://jsonplaceholder.typicode.com/users")
             yeniMadde.appendChild(profilFoto);
             yeniMadde.appendChild(kullaniciBilgisi);
             
-            // Yeni isimle listeye ekliyoruz
             avatarliListe.appendChild(yeniMadde);
         });
     });
+
+
+// --- 16. Hafta: Kalıcı To-Do App (Local Storage Destekli YENİ VERSİYON) ---
+
+let gorevInput = document.getElementById("yeni-gorev");
+let gorevEkleButonu = document.getElementById("gorev-ekle");
+let gorevListesi = document.getElementById("gorev-listesi");
+
+let kayitliGorevler = JSON.parse(localStorage.getItem("gorevler")) || [];
+
+function gorevleriEkranaBas() {
+    gorevListesi.innerHTML = ""; 
+
+    kayitliGorevler.forEach(function(gorevMetni, index) {
+        let yeniMadde = document.createElement("li");
+        yeniMadde.textContent = gorevMetni + " ";
+        
+        // Üstünü çizme özelliği
+        yeniMadde.addEventListener("click", function() {
+            if (yeniMadde.style.textDecoration === "line-through") {
+                yeniMadde.style.textDecoration = "none";
+            } else {
+                yeniMadde.style.textDecoration = "line-through";
+            }
+        });
+
+        let silButonu = document.createElement("button");
+        silButonu.textContent = "Sil";
+
+        silButonu.addEventListener("click", function(event) {
+            event.stopPropagation(); // Sil'e basınca üstünü çizmesini engeller
+            kayitliGorevler.splice(index, 1); 
+            localStorage.setItem("gorevler", JSON.stringify(kayitliGorevler)); 
+            gorevleriEkranaBas(); 
+        });
+
+        yeniMadde.appendChild(silButonu);
+        gorevListesi.appendChild(yeniMadde);
+    });
+}
+
+gorevleriEkranaBas();
+
+gorevEkleButonu.addEventListener("click", function() {
+    let girilenMetin = gorevInput.value.trim();
+
+    if (girilenMetin !== "") {
+        kayitliGorevler.push(girilenMetin);
+        localStorage.setItem("gorevler", JSON.stringify(kayitliGorevler));
+        gorevleriEkranaBas();
+        gorevInput.value = "";
+    } else {
+        alert("Lütfen bir görev girin!");
+    }
+});
+
+
+// --- GECE MODU (EKSİK OLAN KOD BURADA) ---
+
+let temaButonu = document.getElementById("tema-butonu");
+let sayfaGovdesi = document.body; 
+
+let kayitliTema = localStorage.getItem("siteTemasi");
+
+if (kayitliTema === "gece") {
+    sayfaGovdesi.style.backgroundColor = "#121212"; 
+    sayfaGovdesi.style.color = "white"; 
+    temaButonu.textContent = "☀️ Gündüz Moduna Geç";
+}
+
+temaButonu.addEventListener("click", function() {
+    
+    if (sayfaGovdesi.style.backgroundColor === "rgb(18, 18, 18)" || kayitliTema === "gece") {
+        sayfaGovdesi.style.backgroundColor = "white";
+        sayfaGovdesi.style.color = "black";
+        temaButonu.textContent = "🌙 Gece Moduna Geç";
+        localStorage.setItem("siteTemasi", "gunduz");
+        kayitliTema = "gunduz"; 
+    } else {
+        sayfaGovdesi.style.backgroundColor = "#121212";
+        sayfaGovdesi.style.color = "white";
+        temaButonu.textContent = "☀️ Gündüz Moduna Geç";
+        localStorage.setItem("siteTemasi", "gece");
+        kayitliTema = "gece"; 
+    }
+});
